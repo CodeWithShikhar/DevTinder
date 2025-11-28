@@ -6,20 +6,19 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
 
-const EditProfile = ({user}) => {
+const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user?.firstName || "");
   const [lastName, setLastName] = useState(user?.lastName || "");
-  const [age, setAge] = useState(user?.age || "")
-  const [gender, setGender] = useState(user?.gender || "")
-  const [about, setAbout] = useState(user?.about || "")
-  const [photoUrl, setPhotoUrl] = useState(user?.photoUrl || "")
-  const [error, setError] = useState()
-  const [showToast, setShowToast] = useState(false)
+  const [age, setAge] = useState(user?.age || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [about, setAbout] = useState(user?.about || "");
+  const [photoUrl, setPhotoUrl] = useState(user?.photoUrl || "");
+  const [error, setError] = useState();
+  const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
 
-
   const saveProfile = async () => {
-    setError('')
+    setError("");
 
     try {
       const res = await axios.patch(
@@ -36,22 +35,18 @@ const EditProfile = ({user}) => {
           withCredentials: true,
         }
       );
-      dispatch(addUser(res?.data?.data))
-      setShowToast(true)
+      dispatch(addUser(res?.data?.data));
+      setShowToast(true);
       setTimeout(() => {
-        setShowToast(false)
+        setShowToast(false);
       }, 3000);
-    } 
-    catch (error) {
-      setError(error.response.data)
+    } catch (error) {
+      setError(error.response.data);
     }
-
-  }
-
+  };
 
   return (
     <div className="flex justify-center items-start">
-
       {/* Edit Profile Form */}
       <div className="flex justify-center my-10 mx-10">
         <div className="card bg-base-300 w-96 shadow-xl">
@@ -158,10 +153,18 @@ const EditProfile = ({user}) => {
         </div>
       </div>
 
-
       {/* User Card Side by Side */}
-      <UserCard user={{ firstName, lastName, photoUrl, age, about, gender }} />
-
+      {/* <UserCard user={{ firstName, lastName, photoUrl, age, about, gender }} /> */}
+      <div className="card bg-base-300 w-96 shadow-xl my-10">
+        <figure>
+          <img src={photoUrl} alt="Profile Pic" />
+        </figure>
+        <div className="card-body">
+          <h2 className="card-title">{firstName + " " + lastName}</h2>
+          {age && gender && <p>{age + " , " + gender}</p>}
+          <p>{about}</p>
+        </div>
+      </div>
 
       {/* Toast */}
       {showToast && (
@@ -171,7 +174,6 @@ const EditProfile = ({user}) => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };

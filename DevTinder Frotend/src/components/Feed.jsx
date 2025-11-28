@@ -17,6 +17,7 @@ const Feed = () => {
       const res = await axios.get(BASE_URL + "/feed", {
         withCredentials: true,
       });
+      console.log(res.data);
       dispatch(addFeed(res.data));
     } catch (error) {
       console.log("Error in getting feed : ", error);
@@ -27,6 +28,7 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
+
 
   return feed && (
     <div className="flex justify-center my-10">
